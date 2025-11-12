@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CardList - Generate API Key</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* 🎨 Peningkatan Desain Global */
+    body {
+      font-family: 'Poppins', sans-serif;
+      /* Background lebih gelap, seperti bintang jatuh */
+      background-color: #0d001a;
+      background-image: radial-gradient(circle at center, #1a0033 0%, #0d001a 100%);
+      color: #e0e0e0; /* Teks terang untuk mode gelap */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+
+    /* 🖼️ Logo & Judul */
+    .logo {
+      width: 150px; /* Ukuran logo sedikit disesuaikan */
+      margin-bottom: 25px;
+      filter: drop-shadow(0 0 5px #ff4ca0); /* Glow ringan pada logo */
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 5px;
+      color: #ffffff; /* Judul lebih putih */
+      text-shadow: 0 0 10px rgba(255, 76, 160, 0.8); /* Tambahkan shadow pink */
+      font-weight: 700;
+    }
+
+    .subtitle {
+      color: #ffcce6;
+      font-weight: 300;
+      margin-bottom: 25px;
+    }
+
+    /* 📦 Container Utama */
+    .container {
+      background: rgba(255, 255, 255, 0.05); /* Background transparan */
+      backdrop-filter: blur(10px); /* Efek blur kaca/frosty */
+      border: 1px solid rgba(255, 76, 160, 0.3); /* Border pink transparan */
+      padding: 40px; /* Padding lebih besar */
+      border-radius: 25px;
+      text-align: center;
+      width: 350px;
+      max-width: 90vw;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      
+      /* 💖 Efek Glow yang lebih mewah */
+      box-shadow:
+        0 0 15px rgba(255, 76, 160, 0.4),
+        0 0 40px rgba(255, 76, 160, 0.2);
+    }
+
+    .container:hover {
+      transform: translateY(-5px); /* Efek angkat saat hover */
+      box-shadow:
+        0 0 20px rgba(255, 76, 160, 0.6),
+        0 0 60px rgba(255, 76, 160, 0.3);
+    }
+
+    /* 🔘 Tombol */
+    button {
+      background: linear-gradient(135deg, #ff4ca0 0%, #ff66b2 100%); /* Gradient pink */
+      border: none;
+      color: white;
+      padding: 12px 25px;
+      border-radius: 50px; /* Bentuk pil */
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: all 0.3s ease;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 15px rgba(255, 76, 160, 0.5);
+      position: relative; /* Untuk efek hover */
+      overflow: hidden;
+    }
+
+    button:hover {
+      background: linear-gradient(135deg, #ff268e 0%, #ff4ca0 100%);
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(255, 38, 142, 0.7);
+    }
+
+    /* 🔑 Kotak API Key */
+    .apikey-box {
+      /* Background kontras dan gelap */
+      background: #1a0033;
+      border: 1px solid #ff4ca0;
+      padding: 15px;
+      border-radius: 12px;
+      margin-top: 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.9rem;
+      overflow: hidden; /* Pastikan teks tidak keluar */
+      position: relative;
+      transition: border-color 0.3s;
+    }
+
+    .apikey-box:hover {
+        border-color: #ffffff; /* Sedikit highlight saat hover */
+    }
+
+    .apikey-text {
+      flex: 1;
+      margin-right: 15px;
+      color: #ccffcc; /* Warna hijau muda/lime untuk key */
+      font-family: monospace; /* Font monospasi agar terlihat seperti kode */
+      font-weight: 400;
+      white-space: nowrap;
+      overflow-x: scroll; /* Scroll horizontal untuk key panjang */
+      padding: 2px 0;
+      scrollbar-width: none; /* Sembunyikan scrollbar Firefox */
+    }
+
+    /* Sembunyikan scrollbar WebKit (Chrome, Safari) */
+    .apikey-text::-webkit-scrollbar {
+        display: none;
+    }
+
+    .copy-btn {
+      /* Tombol Copy yang lebih menonjol */
+      background: #ff4ca0;
+      border: 1px solid #ff4ca0;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 600;
+      transition: background-color 0.3s, transform 0.1s;
+      flex-shrink: 0; /* Pastikan tombol tidak menyusut */
+    }
+
+    .copy-btn:hover {
+      background-color: #ffffff;
+      color: #ff4ca0;
+    }
+    
+    .copy-btn:active {
+        transform: scale(0.95); /* Efek klik */
+    }
+
+    /* 💡 Notifikasi Salin */
+    .copy-notification {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #ff4ca0;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 50px;
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+        z-index: 1000;
+        font-weight: 600;
+        box-shadow: 0 5px 15px rgba(255, 76, 160, 0.8);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="logo_app1.png" alt="CardList Logo" class="logo"> 
+    <h1>API Access</h1>
+    <p class="subtitle">Buat dan kelola kunci otentikasi API Anda.</p>
+    
+    <button onclick="generateKey()">
+        <span class="button-text">Buat API Key Baru</span>
+    </button>
+
+    <div class="apikey-box" id="apikey-box" style="display: none;">
+      <span class="apikey-text" id="apikey-text"></span>
+      <button class="copy-btn" onclick="copyKey()">Copy Key</button>
+    </div>
+  </div>
+
+  <div id="copy-notification" class="copy-notification">
+    API Key berhasil disalin! 🥳
+  </div>
+
+  <script>
+  async function generateKey() {
+    // Tambahkan animasi loading pada tombol
+    const button = document.querySelector('button');
+    const originalText = button.querySelector('.button-text').textContent;
+    button.querySelector('.button-text').textContent = 'Memproses...';
+    button.disabled = true;
+
+    try {
+      // Ganti URL '/create' dengan endpoint API Anda yang sebenarnya
+      const response = await fetch('/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        // Simulasi penundaan API
+        body: JSON.stringify({ userId: 'user123' })
+      });
+
+      // Simulasi data jika API gagal atau belum ada
+      if (!response.ok) {
+          // Buat key simulasi
+          const simulatedKey = 'CLST-' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+          document.getElementById('apikey-text').textContent = simulatedKey;
+          console.warn('Simulasi API Key: ' + simulatedKey);
+          // throw new Error('Simulasi Gagal'); 
+      } else {
+          const data = await response.json();
+          document.getElementById('apikey-text').textContent = data.apiKey;
+      }
+      
+      document.getElementById('apikey-box').style.display = 'flex';
+      
+    } catch (error) {
+      console.error('Gagal membuat API key:', error);
+      // alert('Gagal membuat API key! Silakan coba lagi.');
+      // Menampilkan box meskipun gagal (untuk menampilkan simulasi key jika ada)
+      document.getElementById('apikey-box').style.display = 'flex';
+    } finally {
+        // Kembalikan tombol ke kondisi awal
+        button.querySelector('.button-text').textContent = originalText;
+        button.disabled = false;
+    }
+  }
+
+  function copyKey() {
+    const key = document.getElementById('apikey-text').textContent;
+    navigator.clipboard.writeText(key).then(() => {
+      // Mengganti alert dengan notifikasi yang lebih cantik
+      showCopyNotification();
+      
+      // Feedback visual pada tombol copy
+      const copyBtn = document.querySelector('.copy-btn');
+      copyBtn.textContent = 'Disalin!';
+      setTimeout(() => {
+        copyBtn.textContent = 'Copy Key';
+      }, 1500);
+      
+    }).catch(err => {
+        console.error('Gagal menyalin:', err);
+        alert('Gagal menyalin API Key! Coba salin manual.');
+    });
+  }
+  
+  function showCopyNotification() {
+    const notification = document.getElementById('copy-notification');
+    notification.style.opacity = '1';
+    
+    // Hilangkan notifikasi setelah 2 detik
+    setTimeout(() => {
+        notification.style.opacity = '0';
+    }, 2000);
+  }
+</script>
+</body>
+</html>
