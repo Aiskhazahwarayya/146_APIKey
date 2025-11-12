@@ -44,6 +44,39 @@ app.post('/create', (req, res) => {
   });
 });
 
+app.post('/checkapi', (req, res) => {
+  const { apiKey } = req.body;
+
+  if (!apiKey) {
+    return res.status(400).json({
+      valid: false,
+      message: 'API Key belum dikirim di body request!'
+    });
+  }
+
+  db.query('SELECT * FROM api_keys WHERE api_key = ?', [apiKey], (err, results) => {
+    if (err) {
+      console.error('Gagal memeriksa API key:', err);
+      return res.status(500).json({ 
+        valid: false,
+        message: 'Terjadi kesalahan saat memeriksa API Key!' 
+      });
+    }
+
+    if (results.length > 0) {
+      res.json({ 
+        valid: true, 
+        message: 'API Key valid dan cocok dengan database!' 
+      });
+    } else {
+      res.json({ 
+        valid: false, 
+        message: 'API Key tidak valid atau tidak cocok dengan key terbaru!' 
+      });
+    }
+  });
+});
+
 
 
 
