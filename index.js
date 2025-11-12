@@ -21,4 +21,10 @@ db.connect(err => {
   console.log('Terhubung ke database MySQL');
 });
 
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+
+
 
